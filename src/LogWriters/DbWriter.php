@@ -5,8 +5,14 @@ namespace Jk\Logger\LogWriters;
 use PDO;
 
 class DbWriter implements ILogWriter {
-    public function __construct(private PDO $dbConnection, private string $table)
+    public function __construct(private PDO $connection, private string $table)
     {
+        if (!isset($connection)) {
+            throw new \Exception('Connection is not defined');
+        }
+        if (!isset($table) || !strlen($table)) {
+            throw new \Exception('Log db table name is not defined');
+        }
         $this->createTable();
     }
 
@@ -19,12 +25,12 @@ class DbWriter implements ILogWriter {
 
         $sql = <<<____SQL
 
-            INSERT INTO $table (level, message, context, created_at, updated_at)
-            VALUES (`$level`, `$message`, `$serializedContext`, $timestamp, $timestamp);
+            INSERT INTO `$table` (level, message, context, created_at, updated_at)
+            VALUES ('$level', '$message', '$serializedContext', '$timestamp', '$timestamp');
         
         ____SQL;
 
-        $this->dbConnection->exec($sql);
+        $this->connection->exec($sql);
     }
 
     private function createTable()
@@ -44,11 +50,12 @@ class DbWriter implements ILogWriter {
         
                 `created_at` timestamp,
         
-                `updated_at` timestamp,        
+                `updated_at` timestamp,
+                 PRIMARY KEY (id)
              );
         
         ____SQL;
 
-        $this->dbConnection->exec($sql);
+        $this->connection->exec($sql);
     }
 }

@@ -16,13 +16,6 @@ class Log {
 
     public static function toDb(PDO $connection, string $table): LoggerInterface
     {
-        if (!isset($connection)) {
-            throw new \Exception('Connection is not defined');
-        }
-        if (!isset($table) || !strlen($table)) {
-            throw new \Exception('Log db table name is not defined');
-        }
-
         $DbWriter = new DbWriter($connection, $table);
         return new Logger($DbWriter);
     }
