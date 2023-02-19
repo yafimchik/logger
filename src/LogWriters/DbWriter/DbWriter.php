@@ -6,7 +6,9 @@ use Jk\Logger\LogWriters\ILogWriter;
 use PDO;
 
 class DbWriter implements ILogWriter {
-    public function __construct(private PDO $connection, private string $table)
+    public const DEFAULT_TABLE_NAME = 'runtime_logs';
+
+    public function __construct(private PDO $connection, private string $table = self::DEFAULT_TABLE_NAME)
     {
         if (!isset($table) || !strlen($table)) {
             throw new BadTableNameException;

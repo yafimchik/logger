@@ -14,7 +14,7 @@ class Log {
         return new Logger($fileWriter);
     }
 
-    public static function toDb(PDO $connection, string $table): LoggerInterface
+    public static function toDb(PDO $connection, string $table = DbWriter::DEFAULT_TABLE_NAME): LoggerInterface
     {
         $DbWriter = new DbWriter($connection, $table);
         return new Logger($DbWriter);
