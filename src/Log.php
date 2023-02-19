@@ -8,13 +8,9 @@ use PDO;
 use Psr\Log\LoggerInterface;
 
 class Log {
-    public static function toFile(string $filePath): LoggerInterface
+    public static function toFile(string $directory, string $file = FileWriter::DEFAULT_FILE_NAME): LoggerInterface
     {
-        if (!isset($filePath) || !strlen($filePath)) {
-            throw new \Exception('File path to log files is not defined');
-        }
-
-        $fileWriter = new FileWriter(realpath($filePath));
+        $fileWriter = new FileWriter($directory, $file);
         return new Logger($fileWriter);
     }
 
