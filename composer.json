@@ -1,0 +1,19 @@
+{
+    "name": "jk/logger",
+    "type": "library",
+    "require": {
+        "psr/log": "^3.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Jk\\Logger\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Yauheni Yafimenka",
+            "email": "yafimenka.jk@gmail.com"
+        }
+    ]
+}
