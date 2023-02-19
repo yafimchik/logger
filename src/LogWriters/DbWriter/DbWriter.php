@@ -8,9 +8,6 @@ use PDO;
 class DbWriter implements ILogWriter {
     public function __construct(private PDO $connection, private string $table)
     {
-        if (!isset($connection)) {
-            throw new NoConnectionException;
-        }
         if (!isset($table) || !strlen($table)) {
             throw new BadTableNameException;
         }
