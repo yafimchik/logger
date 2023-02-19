@@ -2,7 +2,6 @@
 
 namespace Jk\Logger\LogWriters\FileWriter;
 
-use Jk\Logger\LogWriters\DbWriter\BadFileNameException;
 use Jk\Logger\LogWriters\ILogWriter;
 
 class FileWriter implements ILogWriter {

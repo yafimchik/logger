@@ -1,6 +1,6 @@
 <?php
 
-namespace Jk\Logger\LogWriters\DbWriter;
+namespace Jk\Logger\LogWriters\FileWriter;
 
 use Throwable;
 
