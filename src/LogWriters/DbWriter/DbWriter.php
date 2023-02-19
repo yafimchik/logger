@@ -1,17 +1,18 @@
 <?php
 
-namespace Jk\Logger\LogWriters;
+namespace Jk\Logger\LogWriters\DbWriter;
 
+use Jk\Logger\LogWriters\ILogWriter;
 use PDO;
 
 class DbWriter implements ILogWriter {
     public function __construct(private PDO $connection, private string $table)
     {
         if (!isset($connection)) {
-            throw new \Exception('Connection is not defined');
+            throw new NoConnectionException;
         }
         if (!isset($table) || !strlen($table)) {
-            throw new \Exception('Log db table name is not defined');
+            throw new BadTableNameException;
         }
         $this->createTable();
     }

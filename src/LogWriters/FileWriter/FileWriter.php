@@ -1,6 +1,9 @@
 <?php
 
-namespace Jk\Logger\LogWriters;
+namespace Jk\Logger\LogWriters\FileWriter;
+
+use Jk\Logger\LogWriters\DbWriter\BadFileNameException;
+use Jk\Logger\LogWriters\ILogWriter;
 
 class FileWriter implements ILogWriter {
     public const DEFAULT_FILE_NAME = 'run.log';
@@ -11,12 +14,12 @@ class FileWriter implements ILogWriter {
     {
         $realLocation = realpath($directory);
         if (!realpath($directory)) {
-            throw new \Exception('Log file location does not exist');
+            throw new BadLocationException;
         }
         $this->directory = $realLocation;
 
         if (!$file || !strlen($file)) {
-            throw new \Exception('File name is not defined properly');
+            throw new BadFileNameException;
         }
     }
 

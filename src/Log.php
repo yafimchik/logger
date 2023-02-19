@@ -2,8 +2,8 @@
 
 namespace Jk\Logger;
 
-use Jk\Logger\LogWriters\DbWriter;
-use Jk\Logger\LogWriters\FileWriter;
+use Jk\Logger\LogWriters\DbWriter\DbWriter;
+use Jk\Logger\LogWriters\FileWriter\FileWriter;
 use PDO;
 use Psr\Log\LoggerInterface;
 
