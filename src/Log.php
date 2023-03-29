@@ -2,24 +2,10 @@
 
 namespace Jk\Logger;
 
-use Jk\Logger\LogWriters\DbWriter\DbWriter;
-use Jk\Logger\LogWriters\FileWriter\FileWriter;
-use PDO;
+use Jk\Logger\LogWriters\LogWriterFactory;
 
 class Log {
     private static array $loggers = [];
-
-    public static function toFile(string $directory, string $file = FileWriter::DEFAULT_FILE_NAME): void
-    {
-        $fileWriter = new FileWriter($directory, $file);
-        self::$loggers[] = new Logger($fileWriter);
-    }
-
-    public static function toDb(PDO $connection, string $table = DbWriter::DEFAULT_TABLE_NAME): void
-    {
-        $DbWriter = new DbWriter($connection, $table);
-        self::$loggers[] = new Logger($DbWriter);
-    }
 
     public static function __callStatic(string $name, array $arguments)
     {
@@ -29,5 +15,11 @@ class Log {
         foreach (self::$loggers as $logger) {
             $logger->$name(...$arguments);
         }
+    }
+
+    public static function set(string $type, array $options, array $levels = []): void
+    {
+        $logWriter = LogWriterFactory::create($type, $options);
+        self::$loggers[] = new Logger($logWriter, $levels);
     }
 }

@@ -3,16 +3,29 @@
 namespace Jk\Logger\LogWriters\DbWriter;
 
 use Jk\Logger\LogWriters\ILogWriter;
+use Jk\Logger\LogWriters\LogWriter;
 use PDO;
 
-class DbWriter implements ILogWriter {
+class DbWriter extends LogWriter implements ILogWriter {
     public const DEFAULT_TABLE_NAME = 'runtime_logs';
 
-    public function __construct(private PDO $connection, private string $table = self::DEFAULT_TABLE_NAME)
+    public const DEFAULT_USER = 'root';
+
+    private PDO $connection;
+
+    protected function __construct(array $options)
     {
-        if (!isset($table) || !strlen($table)) {
-            throw new BadTableNameException;
-        }
+        $table = $options['table'] ?? self::DEFAULT_TABLE_NAME;
+        $dsn = $options['dsn'];
+        $user = $options['user'] ?? self::DEFAULT_USER;
+        $password = $options['password'];
+
+        unset($options['table']);
+        unset($options['dsn']);
+        unset($options['user']);
+        unset($options['password']);
+
+        $this->connection = new PDO($dsn, $user, $password, $options);
         $this->createTable();
     }
 
@@ -57,5 +70,11 @@ class DbWriter implements ILogWriter {
         ____SQL;
 
         $this->connection->exec($sql);
+    }
+
+    public static function getInstanceFromOptions(array $options): ILogWriter
+    {
+        $key = $options['dsn'];
+        return parent::getInstance($key, $options);
     }
 }

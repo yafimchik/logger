@@ -19,7 +19,7 @@ class Logger extends AbstractLogger implements LoggerInterface {
         LogLevel::NOTICE,
     ];
 
-    public function __construct(protected ILogWriter $writer)
+    public function __construct(protected ILogWriter $writer, protected array $levels = [])
     {
     }
 
@@ -29,6 +29,8 @@ class Logger extends AbstractLogger implements LoggerInterface {
             throw new InvalidArgumentException;
         }
 
-        $this->writer->write($level, $message, $context);
+        if (!count($this->levels) || in_array($level, $this->levels)) {
+            $this->writer->write($level, $message, $context);
+        }
     }
 }
