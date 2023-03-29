@@ -11,11 +11,13 @@ class DbWriter extends LogWriter implements ILogWriter {
 
     public const DEFAULT_USER = 'root';
 
-    private PDO $connection;
+    protected PDO $connection;
+
+    protected string $table;
 
     protected function __construct(array $options)
     {
-        $table = $options['table'] ?? self::DEFAULT_TABLE_NAME;
+        $this->table = $options['table'] ?? self::DEFAULT_TABLE_NAME;
         $dsn = $options['dsn'];
         $user = $options['user'] ?? self::DEFAULT_USER;
         $password = $options['password'];
