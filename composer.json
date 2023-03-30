@@ -2,7 +2,8 @@
     "name": "jk/logger",
     "type": "library",
     "require": {
-        "psr/log": "^3.0"
+      "psr/log": "^3.0",
+      "ext-pdo": "*"
     },
     "license": "MIT",
     "autoload": {
